@@ -58,6 +58,7 @@ use zfx\Config;
                     <button type="submit">Entrar</button>
                 </div>
             </div>
+            Powered by<br>
             <img class="zbfLoginBottomLogo" style=" "
                  src="<?php echo Config::get('appLoginLogoBottomUrl'); ?>"
                  alt="Logo">
