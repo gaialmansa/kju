@@ -30,7 +30,7 @@ $pofemenu = array(
                 ),
                 'pofemenu-asignar-busca' => array(
                     'es'         => array('Asignar busca', '<i class="fas fa-pager"></i>'),
-                    'controller' => 'grupos',
+                    'controller' => 'asignarbeeper',
                     'perm'       => '|',
                 )
             )
