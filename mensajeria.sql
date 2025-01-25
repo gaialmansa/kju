@@ -46,6 +46,45 @@ CREATE FUNCTION public.upsert_zfx_userattribute(iduser integer, attcode text, at
 
 ALTER FUNCTION public.upsert_zfx_userattribute(iduser integer, attcode text, attvalue text) OWNER TO pofenas;
 
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: beepers; Type: TABLE; Schema: public; Owner: software
+--
+
+CREATE TABLE public.beepers (
+    id_beeper integer NOT NULL,
+    id_usuario integer,
+    mac character(12)
+);
+
+
+ALTER TABLE public.beepers OWNER TO software;
+
+--
+-- Name: beepers_id_beeper_seq; Type: SEQUENCE; Schema: public; Owner: software
+--
+
+CREATE SEQUENCE public.beepers_id_beeper_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.beepers_id_beeper_seq OWNER TO software;
+
+--
+-- Name: beepers_id_beeper_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: software
+--
+
+ALTER SEQUENCE public.beepers_id_beeper_seq OWNED BY public.beepers.id_beeper;
+
+
 --
 -- Name: grupos_id_seq; Type: SEQUENCE; Schema: public; Owner: pofenas
 --
@@ -59,10 +98,6 @@ CREATE SEQUENCE public.grupos_id_seq
 
 
 ALTER SEQUENCE public.grupos_id_seq OWNER TO pofenas;
-
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
 
 --
 -- Name: grupos; Type: TABLE; Schema: public; Owner: pofenas
@@ -207,8 +242,7 @@ CREATE TABLE public.usuarios (
     id_usuario integer DEFAULT nextval('public.usuarios_id_seq'::regclass) NOT NULL,
     usuario character varying(16) NOT NULL,
     nombre character varying(128) NOT NULL,
-    observaciones text NOT NULL,
-    tipo integer
+    observaciones text
 );
 
 
@@ -362,6 +396,13 @@ CREATE TABLE public.zfx_userattribute (
 ALTER TABLE public.zfx_userattribute OWNER TO pofenas;
 
 --
+-- Name: beepers id_beeper; Type: DEFAULT; Schema: public; Owner: software
+--
+
+ALTER TABLE ONLY public.beepers ALTER COLUMN id_beeper SET DEFAULT nextval('public.beepers_id_beeper_seq'::regclass);
+
+
+--
 -- Name: zfx_group id; Type: DEFAULT; Schema: public; Owner: pofenas
 --
 
@@ -383,15 +424,28 @@ ALTER TABLE ONLY public.zfx_user ALTER COLUMN id SET DEFAULT nextval('public.zfx
 
 
 --
+-- Data for Name: beepers; Type: TABLE DATA; Schema: public; Owner: software
+--
+
+COPY public.beepers (id_beeper, id_usuario, mac) FROM stdin;
+1	\N	mac1        
+2	\N	mac2        
+3	\N	mac3        
+4	\N	mac4        
+5	\N	mac5        
+\.
+
+
+--
 -- Data for Name: grupos; Type: TABLE DATA; Schema: public; Owner: pofenas
 --
 
 COPY public.grupos (id_grupo, grupo, id_padre) FROM stdin;
-4	Celadores	0
-6	Médicos	0
-3	Enfermer@s	0
 18	Personal	0
 19	Personal Sanitario	18
+6	Médicos	19
+4	Celadores	18
+3	Enfermeras	19
 \.
 
 
@@ -445,17 +499,14 @@ COPY public.rug (id, id_usuario, id_grupo) FROM stdin;
 -- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: pofenas
 --
 
-COPY public.usuarios (id_usuario, usuario, nombre, observaciones, tipo) FROM stdin;
-3	cel1	Celador de urgencias 1		\N
-4	cel2	celador de urgencias 2		\N
-5	enf1	enfermera de urgencias 1		\N
-6	enf2	enfermera de urgencias 2		\N
-7	med1	medico de urgencias 1		\N
-8	med2	medio de urgencias 2		\N
-2	alias	Nombre	Observaciones\nUsuario malo malo\nHay que deshacerse de este tio cuanto antes	\N
-9	alias2	Nombre2	Observaciones\nUsuario malo malo\nHay que deshacerse de este tio cuanto antes	\N
-10				\N
-11	alias20	Nombre20	Observaciones\nUsuario malo malo\nHay que deshacerse de este tio cuanto antes	\N
+COPY public.usuarios (id_usuario, usuario, nombre, observaciones) FROM stdin;
+4	cel2	celador de urgencias 2	
+5	enf1	enfermera de urgencias 1	
+6	enf2	enfermera de urgencias 2	
+2	alias	Borrame	Observaciones\r\nUsuario malo malo\r\nHay que deshacerse de este tio cuanto antes
+3	cel1	Celador de urgencias 1	
+7	med1	medico de urgencias 1	\N
+8	med2	medico de urgencias 2	\N
 \.
 
 
@@ -495,8 +546,8 @@ COPY public.zfx_permission (id, code, description) FROM stdin;
 --
 
 COPY public.zfx_user (id, login, password_hash, language, ref1, ref2) FROM stdin;
-1	mostrenko	aaf216a81361a389a07308f8dfc59884	  	\N	\N
 2	admin	21232f297a57a5a743894a0e4a801fc3	es	\N	\N
+1	mostrenko	1c8639ff134cd774c96a0bf52e71f380	es	\N	\N
 \.
 
 
@@ -515,6 +566,13 @@ COPY public.zfx_user_group (id_user, id_group) FROM stdin;
 
 COPY public.zfx_userattribute (id_user, code, value) FROM stdin;
 \.
+
+
+--
+-- Name: beepers_id_beeper_seq; Type: SEQUENCE SET; Schema: public; Owner: software
+--
+
+SELECT pg_catalog.setval('public.beepers_id_beeper_seq', 5, true);
 
 
 --
@@ -571,6 +629,14 @@ SELECT pg_catalog.setval('public.zfx_permission_id_seq', 3, true);
 --
 
 SELECT pg_catalog.setval('public.zfx_user_id_seq', 2, true);
+
+
+--
+-- Name: beepers beepers_pkey; Type: CONSTRAINT; Schema: public; Owner: software
+--
+
+ALTER TABLE ONLY public.beepers
+    ADD CONSTRAINT beepers_pkey PRIMARY KEY (id_beeper);
 
 
 --
@@ -683,6 +749,14 @@ ALTER TABLE ONLY public.zfx_user
 
 ALTER TABLE ONLY public.zfx_userattribute
     ADD CONSTRAINT zfx_userattribute_pkey PRIMARY KEY (id_user, code);
+
+
+--
+-- Name: beepers beepers_id_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: software
+--
+
+ALTER TABLE ONLY public.beepers
+    ADD CONSTRAINT beepers_id_usuario_fkey FOREIGN KEY (id_usuario) REFERENCES public.usuarios(id_usuario);
 
 
 --
