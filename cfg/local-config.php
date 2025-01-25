@@ -16,3 +16,5 @@ $cfg['pg']         = array(
     )
 );
 $cfg['showErrors'] = TRUE;
+$cfg['appLoginLogoBottomUrl'] = 'res/img/zerfrex.png';
+$cfg['appLoginLogoUrl'] = 'res/img/logo mensajeria.png';
