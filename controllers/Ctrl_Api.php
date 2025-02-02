@@ -42,6 +42,7 @@ class  Ctrl_Api extends \zfx\Controller
                         $this->out(array(),10,"El grupo $nombre ya existe.");        
                 $this->out(array(),0,"");
         }    
+        
         public function asignarusuariogrupo()
         {
                 $id_usuario = $_POST["id_usuario"];

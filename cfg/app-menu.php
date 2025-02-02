@@ -29,8 +29,8 @@ $pofemenu = array(
                     'perm'       => '|',
                 ),
                 'pofemenu-asignar-busca' => array(
-                    'es'         => array('Asignar busca', '<i class="fas fa-pager"></i>'),
-                    'controller' => 'asignarbeeper',
+                    'es'         => array('Asignar Busca', '<i class="fas fa-pager"></i>'),
+                    'controller' => 'asignar-beeper',
                     'perm'       => '|',
                 )
             )

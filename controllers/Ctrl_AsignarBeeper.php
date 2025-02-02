@@ -15,7 +15,7 @@ use zfx\Config;
 
 include_once('Abs_AppController.php');
 
-class Ctrl_Asignarbeeper extends Abs_AppController
+class Ctrl_AsignarBeeper extends Abs_AppController
 {
 
     public function _main()
@@ -23,8 +23,8 @@ class Ctrl_Asignarbeeper extends Abs_AppController
 
         
         $this->_view->addSection('body', 'zaf/' . Config::get('admTheme') . '/crud-bootstrap-list', array(
-            '_title'      => 'Asignar beeper',
-            '_controller' => 'GruposCrud'
+            '_title'      => 'Asignar Beeper',
+            '_controller' => 'AsignarBeeperCrud'
         ));
 
         $this->_view->show();
