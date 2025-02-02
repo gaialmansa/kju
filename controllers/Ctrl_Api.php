@@ -18,6 +18,34 @@ class  Ctrl_Api extends \zfx\Controller
    //$g = new Grupos($this->db);
 
         }
+        /************************************************
+         
+        
+               B E E P E R S
+        
+        
+        *************************************************/
+        public function bregister()
+        {
+         $beeper = New Beepers($this->db);
+         $mac = $_POST['mac'];  // recuperamos la mac que viene por post
+         $e = $beeper->existe($mac);
+         if (! $e)      // no existe. Cuando no existe devuelve un false
+           {
+           $beeper->insertar($mac);
+           out(array());
+           }
+         else
+           out(array(
+                'usuario actual'=>$e->nombre,
+                'alias' => $e->usuario));
+        }
+        public function bunregister()
+        {
+         $beeper = New Beepers($this->db);
+         $mac = $_POST['mac'];  // recuperamos la mac que viene por post
+         $e = $beeper->boprrar($mac);
+        }
 
 
        /************************************************
