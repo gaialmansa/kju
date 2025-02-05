@@ -16,14 +16,14 @@ class  Beepers
     public function existe($mac)
     {
         $qry = "
-        SELECT usuarios.nombre
+        SELECT id_beeper
         FROM beepers
-            NATURAL JOIN usuarios
         WHERE mac = '$mac'";
         $ret = $this->db->qa($qry);
-        if (is_null($ret))  // si no encuentra nada devuelve falso
+//        return $qry;
+        if (!$ret)  // si no encuentra nada devuelve falso
             return false;
-        return $ret['nombre'];
+        return $ret;
     }
     public function borrar($mac)
     {
