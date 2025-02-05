@@ -30,6 +30,7 @@ class  Ctrl_Api extends \zfx\Controller
          $beeper = New Beepers($this->db);
          $mac = $this->getpost('mac');  // recuperamos la mac que viene por post
          $e = $beeper->existe($mac);
+         $this->out($e);
          if (! $e)      // no existe. Cuando no existe devuelve un false
            {
            $beeper->insertar($mac);
@@ -44,7 +45,7 @@ class  Ctrl_Api extends \zfx\Controller
         {
          $beeper = New Beepers($this->db);
          $mac = $_POST['mac'];  // recuperamos la mac que viene por post
-         $e = $beeper->boprrar($mac);
+         $e = $beeper->borrar($mac);
         }
 
 
