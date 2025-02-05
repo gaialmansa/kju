@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.6 (Ubuntu 16.6-0ubuntu0.24.04.1)
--- Dumped by pg_dump version 16.6 (Ubuntu 16.6-0ubuntu0.24.04.1)
+-- Dumped from database version 10.23 (Ubuntu 10.23-0ubuntu0.18.04.2)
+-- Dumped by pg_dump version 10.23 (Ubuntu 10.23-0ubuntu0.18.04.2)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -15,6 +15,20 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
 
 --
 -- Name: upsert_zfx_userattribute(integer, text, text); Type: FUNCTION; Schema: public; Owner: pofenas
@@ -48,7 +62,7 @@ ALTER FUNCTION public.upsert_zfx_userattribute(iduser integer, attcode text, att
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+SET default_with_oids = false;
 
 --
 -- Name: beepers; Type: TABLE; Schema: public; Owner: software
@@ -76,7 +90,7 @@ CREATE SEQUENCE public.beepers_id_beeper_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.beepers_id_beeper_seq OWNER TO software;
+ALTER TABLE public.beepers_id_beeper_seq OWNER TO software;
 
 --
 -- Name: beepers_id_beeper_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: software
@@ -97,7 +111,7 @@ CREATE SEQUENCE public.grupos_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.grupos_id_seq OWNER TO pofenas;
+ALTER TABLE public.grupos_id_seq OWNER TO pofenas;
 
 --
 -- Name: grupos; Type: TABLE; Schema: public; Owner: pofenas
@@ -124,7 +138,7 @@ CREATE SEQUENCE public.mensajes_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.mensajes_id_seq OWNER TO pofenas;
+ALTER TABLE public.mensajes_id_seq OWNER TO pofenas;
 
 --
 -- Name: mensajes; Type: TABLE; Schema: public; Owner: pofenas
@@ -172,7 +186,7 @@ CREATE SEQUENCE public.rel_usuarios_grupos_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.rel_usuarios_grupos_id_seq OWNER TO pofenas;
+ALTER TABLE public.rel_usuarios_grupos_id_seq OWNER TO pofenas;
 
 --
 -- Name: rmu_id_seq; Type: SEQUENCE; Schema: public; Owner: pofenas
@@ -186,7 +200,7 @@ CREATE SEQUENCE public.rmu_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.rmu_id_seq OWNER TO pofenas;
+ALTER TABLE public.rmu_id_seq OWNER TO pofenas;
 
 --
 -- Name: rmu; Type: TABLE; Schema: public; Owner: pofenas
@@ -232,7 +246,7 @@ CREATE SEQUENCE public.usuarios_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.usuarios_id_seq OWNER TO pofenas;
+ALTER TABLE public.usuarios_id_seq OWNER TO pofenas;
 
 --
 -- Name: usuarios; Type: TABLE; Schema: public; Owner: pofenas
@@ -276,7 +290,7 @@ CREATE SEQUENCE public.zfx_group_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.zfx_group_id_seq OWNER TO pofenas;
+ALTER TABLE public.zfx_group_id_seq OWNER TO pofenas;
 
 --
 -- Name: zfx_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pofenas
@@ -323,7 +337,7 @@ CREATE SEQUENCE public.zfx_permission_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.zfx_permission_id_seq OWNER TO pofenas;
+ALTER TABLE public.zfx_permission_id_seq OWNER TO pofenas;
 
 --
 -- Name: zfx_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pofenas
@@ -373,7 +387,7 @@ CREATE SEQUENCE public.zfx_user_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.zfx_user_id_seq OWNER TO pofenas;
+ALTER TABLE public.zfx_user_id_seq OWNER TO pofenas;
 
 --
 -- Name: zfx_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pofenas
@@ -547,7 +561,7 @@ COPY public.zfx_permission (id, code, description) FROM stdin;
 
 COPY public.zfx_user (id, login, password_hash, language, ref1, ref2) FROM stdin;
 2	admin	21232f297a57a5a743894a0e4a801fc3	es	\N	\N
-1	mostrenko	1c8639ff134cd774c96a0bf52e71f380	es	\N	\N
+1	mostrenko	aaf216a81361a389a07308f8dfc59884	es	\N	\N
 \.
 
 
@@ -845,6 +859,20 @@ ALTER TABLE ONLY public.zfx_user_group
 
 ALTER TABLE ONLY public.zfx_userattribute
     ADD CONSTRAINT "zfx_userattribute_relUser" FOREIGN KEY (id_user) REFERENCES public.zfx_user(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: TABLE beepers; Type: ACL; Schema: public; Owner: software
+--
+
+GRANT ALL ON TABLE public.beepers TO pofenas;
+
+
+--
+-- Name: SEQUENCE beepers_id_beeper_seq; Type: ACL; Schema: public; Owner: software
+--
+
+GRANT ALL ON SEQUENCE public.beepers_id_beeper_seq TO pofenas;
 
 
 --

@@ -20,10 +20,10 @@ class  Beepers
         FROM beepers
             NATURAL JOIN usuarios
         WHERE mac = '$mac'";
-        $ret = $this->db->qo($qry);
+        $ret = $this->db->qa($qry);
         if (is_null($ret))  // si no encuentra nada devuelve falso
             return false;
-        return $ret->nombre;
+        return $ret['nombre'];
     }
     public function borrar($mac)
     {
