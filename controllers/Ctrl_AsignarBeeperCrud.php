@@ -23,7 +23,7 @@ class Ctrl_AsignarBeeperCrud extends Abs_AppCrudController
     {
         $this->auto('beepers');
         $this->lstHideFields = array('id_beeper');
-        $this->relName('beepers_id_usuario_fkey','usuario');
+        $this->relName('beepers_id_usuario_fkey','nombre');
         
     }
     // --------------------------------------------------------------------

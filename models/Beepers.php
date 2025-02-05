@@ -16,14 +16,27 @@ class  Beepers
     public function existe($mac)
     {
         $qry = "
-        SELECT id_beeper
+        SELECT *
         FROM beepers
         WHERE mac = '$mac'";
-        $ret = $this->db->qa($qry);
-//        return $qry;
+        $ret = $this->db->qa($qry);;
         if (!$ret)  // si no encuentra nada devuelve falso
             return false;
-        return $ret;
+        else        // ha encontrado algo. Tenemos que buscar a ver si está asignado
+        {
+            echo var_dump($ret[0]);
+            if ($reṭ[0]['id_usuario'] <> '') // usuario no asignado
+            {
+                $qry = "
+                        SELECT *
+                        FROM beepers
+                         NATURAL JOIN usuarios
+                        WHERE mac = '$mac'";
+                        echo $qry;
+                        $ret = $this->db->qa($qry);;
+            }
+        }
+        return $ret[0];
     }
     public function borrar($mac)
     {

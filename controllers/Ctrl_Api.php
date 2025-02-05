@@ -30,16 +30,14 @@ class  Ctrl_Api extends \zfx\Controller
          $beeper = New Beepers($this->db);
          $mac = $this->getpost('mac');  // recuperamos la mac que viene por post
          $e = $beeper->existe($mac);
-         $this->out($e);
+         //$this->out($e);
          if (! $e)      // no existe. Cuando no existe devuelve un false
            {
            $beeper->insertar($mac);
-           $this->out(array());
+           $this->out(array('insertado'=>1));
            }
          else
-           $this->out(array(
-                'usuario actual'=>$e->nombre,
-                'alias' => $e->usuario));
+           $this->out(array($e));
         }
         public function bunregister()
         {
