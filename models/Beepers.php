@@ -19,23 +19,20 @@ class  Beepers
         SELECT *
         FROM beepers
         WHERE mac = '$mac'";
-        $ret = $this->db->qa($qry);;
+        $ret = $this->db->qa($qry);
         if (!$ret)  // si no encuentra nada devuelve falso
             return false;
-        else        // ha encontrado algo. Tenemos que buscar a ver si está asignado
+               // ha encontrado algo. Tenemos que buscar a ver si está asignado
+        if (isset($ret[0]['id_usuario']) && $ret[0]['id_usuario'] !== null ) // usuario asignado
         {
-            echo var_dump($ret[0]);
-            if ($reṭ[0]['id_usuario'] <> '') // usuario no asignado
-            {
-                $qry = "
-                        SELECT *
+         $qry = "
+                      SELECT *
                         FROM beepers
                          NATURAL JOIN usuarios
                         WHERE mac = '$mac'";
-                        echo $qry;
-                        $ret = $this->db->qa($qry);;
-            }
+        $ret = $this->db->qa($qry);;
         }
+        
         return $ret[0];
     }
     public function borrar($mac)

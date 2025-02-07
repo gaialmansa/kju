@@ -15,7 +15,7 @@ class  Ctrl_Api extends \zfx\Controller
                 if (!$res) 
                         die("Action not found");
                 
-   //$g = new Grupos($this->db);
+          //$g = new Grupos($this->db);
 
         }
         /************************************************
@@ -37,7 +37,7 @@ class  Ctrl_Api extends \zfx\Controller
            $this->out(array('insertado'=>1));
            }
          else
-           $this->out(array($e));
+           $this->out($e);
         }
         public function bunregister()
         {
@@ -45,8 +45,6 @@ class  Ctrl_Api extends \zfx\Controller
          $mac = $_POST['mac'];  // recuperamos la mac que viene por post
          $e = $beeper->borrar($mac);
         }
-
-
        /************************************************
          
         
