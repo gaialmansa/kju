@@ -293,7 +293,6 @@ class  Ctrl_Api extends \zfx\Controller
                 $mensaje = $_POST["mensaje"];
                 $id_mensaje = $this->_crearmensaje($id_usuario_o,$mensaje);           // primero creamos el mensaje
                 $lista_usuarios = $this->_recuperarusuariosgrupo($id_grupo);
-                //die(var_dump($lista_usuarios));
                 foreach( $lista_usuarios as $l )
                         $this->_enlazar_mensaje_usuario($id_mensaje,$l['id_usuario']);
                 $this->out(array("id_usuario_o"=>$id_usuario_o,
@@ -305,14 +304,39 @@ class  Ctrl_Api extends \zfx\Controller
         public function mrecuperar()
         {
                 $id_usuario = $_POST["id_usuario"];
+                $nmensajes = $_POST["nmensajes"];
+                $offset = $_POST["offset"];
                 $qry = "
                 SELECT uo.nombre AS origen,hora_edicion AS hora,mensaje, rmu.*
                 FROM rmu
                         NATURAL JOIN usuarios
                         NATURAL JOIN mensajes
                         JOIN usuarios uo ON mensajes.id_usuario_o = uo.id_usuario
-                WHERE rmu.id_usuario = $id_usuario";
-                $this->out($this->db->qa($qry),0,'');
+                WHERE rmu.id_usuario = $id_usuario
+                ORDER BY hora_edicion DESC 
+                LIMIT $nmensajes
+                OFFSET $offset";
+                $listamensajes = $this->db->qa($qry);
+                
+                foreach ($listamensajes as &$m)
+                 {
+                   $idm = $m['id_mensaje'];
+                   $qry = "
+                        SELECT visto FROM rmu WHERE id_mensaje = $idm AND  NOT visto
+                        ";      // este query devuelve resultados si hay algun destinatario que aun no haya visto el mensaje
+                    $m['visto'] =  ! $this->db->qa($qry);
+
+                    $qry = "
+                        SELECT atendido FROM rmu WHERE id_mensaje = $idm AND  NOT atendido
+                    ";      // este query devuelve resultados si hay algun destinatario que aun no haya atendido el mensaje
+                    $m['atendido'] =  ! $this->db->qa($qry);
+                    
+                    $qry = "
+                        SELECT rehusado FROM rmu WHERE id_mensaje = $idm AND  NOT rehusado
+                    ";      // este query devuelve resultados si hay algun destinatario que aun no haya rehusado el mensaje
+                    $m['rehusado'] =  ! $this->db->qa($qry);
+                }
+                $this->out($listamensajes,0,'');
 
 
                 
@@ -458,7 +482,7 @@ class  Ctrl_Api extends \zfx\Controller
                 $timestamp = $fechaHora = date('Y-m-d H:i:s', time());
                 $qry = "
                 INSERT INTO mensajes
-                (id_usuario,  hora_edicion, mensaje)
+                (id_usuario_o,  hora_edicion, mensaje)
                 VALUES ($id_usuario_o,'$timestamp', '$mensaje')
                 RETURNING id_mensaje";
                 return $this->db->qr($qry)['id_mensaje'];

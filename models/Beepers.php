@@ -30,7 +30,7 @@ class  Beepers
                         FROM beepers
                          NATURAL JOIN usuarios
                         WHERE mac = '$mac'";
-        $ret = $this->db->qa($qry);;
+        $ret = $this->db->qa($qry);
         }
         
         return $ret[0];
