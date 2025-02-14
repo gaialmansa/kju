@@ -1,6 +1,6 @@
 <?php
 
-class  Beepers
+class  Beeper
 {
         public $db;
 

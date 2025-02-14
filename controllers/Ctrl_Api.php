@@ -27,7 +27,7 @@ class  Ctrl_Api extends \zfx\Controller
         *************************************************/
         public function bregister()
         {
-         $beeper = New Beepers($this->db);
+         $beeper = New Beeper($this->db);
          $mac = $this->getpost('mac');  // recuperamos la mac que viene por post
          $e = $beeper->existe($mac);
          //$this->out($e);
@@ -41,7 +41,7 @@ class  Ctrl_Api extends \zfx\Controller
         }
         public function bunregister()
         {
-         $beeper = New Beepers($this->db);
+         $beeper = New Beeper($this->db);
          $mac = $_POST['mac'];  // recuperamos la mac que viene por post
          $e = $beeper->borrar($mac);
         }
@@ -278,9 +278,10 @@ class  Ctrl_Api extends \zfx\Controller
         {
                 $id_usuario_o = $_POST["id_usuario_o"];
                 $id_usuario_d = $_POST["id_usuario_d"];
-                $mensaje = $_POST["mensaje"];
-                $id_mensaje = $this->_crearmensaje($id_usuario_o, $mensaje);    // creamos el mensaje
-                $this->_enlazar_mensaje_usuario($id_mensaje, $id_usuario_d);   // lo enlazamos a nuestro unico destinatario
+                $mensajeText = $_POST["mensaje"];
+                $Mensaje = New Mensaje($this->db);
+                $id_mensaje = $Mensaje->crear($id_usuario_o, $mensajeText);    // creamos el mensaje
+                $Mensaje->enlazarMensajeUsuario($id_mensaje, $id_usuario_d);   // lo enlazamos a nuestro unico destinatario
                 $this->out(array("id_usuario_o"=>$id_usuario_o,
                 "id_usuario_d"=>$id_usuario_d,
                 "mensaje"=>$mensaje),0,"");
@@ -290,11 +291,12 @@ class  Ctrl_Api extends \zfx\Controller
         { 
                 $id_usuario_o = $_POST["id_usuario_o"];
                 $id_grupo = $_POST["id_grupo"];
-                $mensaje = $_POST["mensaje"];
-                $id_mensaje = $this->_crearmensaje($id_usuario_o,$mensaje);           // primero creamos el mensaje
-                $lista_usuarios = $this->_recuperarusuariosgrupo($id_grupo);
+                $mensajeText = $_POST["mensaje"];
+                $Mensaje = New Mensaje($this->db);
+                $id_mensaje = $Mensaje->crear($id_usuario_o,$mensajeText);           // primero creamos el mensaje
+                $lista_usuarios = $Mensaje->recuperarUsuariosGrupo($id_grupo);
                 foreach( $lista_usuarios as $l )
-                        $this->_enlazar_mensaje_usuario($id_mensaje,$l['id_usuario']);
+                        $Mensaje->enlazarMensajeUsuario($id_mensaje,$l['id_usuario']);
                 $this->out(array("id_usuario_o"=>$id_usuario_o,
                                  "destinatarios"=>$lista_usuarios,
                                  "mensaje"=>$mensaje),0,"");
@@ -306,74 +308,31 @@ class  Ctrl_Api extends \zfx\Controller
                 $id_usuario = $_POST["id_usuario"];
                 $nmensajes = $_POST["nmensajes"];
                 $offset = $_POST["offset"];
-                $qry = "
-                SELECT uo.nombre AS origen,hora_edicion AS hora,mensaje, rmu.*
-                FROM rmu
-                        NATURAL JOIN usuarios
-                        NATURAL JOIN mensajes
-                        JOIN usuarios uo ON mensajes.id_usuario_o = uo.id_usuario
-                WHERE rmu.id_usuario = $id_usuario
-                ORDER BY hora_edicion DESC 
-                LIMIT $nmensajes
-                OFFSET $offset";
-                $listamensajes = $this->db->qa($qry);
-                
-                foreach ($listamensajes as &$m)
-                 {
-                   $idm = $m['id_mensaje'];
-                   $qry = "
-                        SELECT visto FROM rmu WHERE id_mensaje = $idm AND  NOT visto
-                        ";      // este query devuelve resultados si hay algun destinatario que aun no haya visto el mensaje
-                    $m['visto'] =  ! $this->db->qa($qry);
-
-                    $qry = "
-                        SELECT atendido FROM rmu WHERE id_mensaje = $idm AND  NOT atendido
-                    ";      // este query devuelve resultados si hay algun destinatario que aun no haya atendido el mensaje
-                    $m['atendido'] =  ! $this->db->qa($qry);
-                    
-                    $qry = "
-                        SELECT rehusado FROM rmu WHERE id_mensaje = $idm AND  NOT rehusado
-                    ";      // este query devuelve resultados si hay algun destinatario que aun no haya rehusado el mensaje
-                    $m['rehusado'] =  ! $this->db->qa($qry);
-                }
+                $Mensaje = New Mensaje($this->db);
+                $listamensajes = $Mensaje->recuperar($id_usuario, $nmensajes, $offset);
                 $this->out($listamensajes,0,'');
-
-
-                
         }
         public function mver()
         {
-                $timestamp = $fechaHora = date('Y-m-d H:i:s', time());
                 $id = $_POST['id'];
-                $qry = "
-                UPDATE rmu
-                SET visto = TRUE, hora_visto ='$timestamp' 
-                WHERE id = $id";
-                $this->db->q($qry);
+                $Mensaje = New Mensaje($this->db);
+                $Mensaje->ver($id);
                 $this->out(array(),0,"");
 
         }
         public function matender()
         {
-                $timestamp = $fechaHora = date('Y-m-d H:i:s', time());
                 $id = $_POST['id'];
-                $qry = "
-                UPDATE rmu
-                SET atendido = TRUE, hora_atendido ='$timestamp' 
-                WHERE id = $id";
-                $this->db->q($qry);
+                $Mensaje = New Mensaje($this->db);
+                $Mensaje->atender($id);
                 $this->out(array(),0,"");
 
         }
         public function mrehusar()
         {
-                $timestamp = $fechaHora = date('Y-m-d H:i:s', time());
                 $id = $_POST['id'];
-                $qry = "
-                UPDATE rmu
-                SET rehusado = TRUE, hora_rehusado ='$timestamp' 
-                WHERE id = $id";
-                $this->db->q($qry);
+                $Mensaje = New Mensaje($this->db);
+                $Mensaje->rehusar($id);
                 $this->out(array(),0,"");
 
         }
@@ -382,16 +341,20 @@ class  Ctrl_Api extends \zfx\Controller
         {
                 $id_usuario = $_POST["id_usuario"];
                 $numero = $_POST["numero"];
-                $qry = "
-                SELECT hora_edicion AS hora,mensaje, rmu.*
-                FROM rmu
-                        NATURAL JOIN usuarios
-                        NATURAL JOIN mensajes
-                WHERE mensajes.id_usuario_o = $id_usuario
-                ORDER BY hora DESC
-                LIMIT $numero";
-                $this->out($this->db->qa($qry),0,'');
+                $Mensaje = New Mensaje($this->db);
+                $lista = $Mensaje->enviadosRecuperar($id_usuario, $numero);
+                $this->out($lista,0,'');
 
+
+        }
+        public function mnv()
+        {
+          $id_usuario = $_POST["id_usuario"];
+          $Mensaje = New Mensaje($this->db);
+          $lista = $Mensaje->recuperarPrimeroNoVisto($id_usuario); // devuelve el primer mensaje no visto.
+          $this->out($lista,0,'');
+
+         
         }
         //           P R O P O S I T O    G E N E R A L 
 
@@ -477,32 +440,7 @@ class  Ctrl_Api extends \zfx\Controller
                 SELECT * FROM usuarios WHERE usuario = '$alias'";
                 return $this->db->qr($qry);
         }
-        private function _crearmensaje($id_usuario_o, $mensaje)
-        {
-                $timestamp = $fechaHora = date('Y-m-d H:i:s', time());
-                $qry = "
-                INSERT INTO mensajes
-                (id_usuario_o,  hora_edicion, mensaje)
-                VALUES ($id_usuario_o,'$timestamp', '$mensaje')
-                RETURNING id_mensaje";
-                return $this->db->qr($qry)['id_mensaje'];
-        }
-        private function _enlazar_mensaje_usuario($id_mensaje, $id_usuario)
-        {
-                $qry = "
-                INSERT INTO rmu
-                (id_mensaje, id_usuario)
-                VALUES
-                 ($id_mensaje, $id_usuario)";
-                $this->db->q($qry);
-        }
-        private function _recuperarusuariosgrupo($id_grupo)
-        {
-                $qry = "
-                SELECT * FROM rug
-                        NATURAL JOIN usuarios
-                        NATURAL JOIN grupos
-                WHERE id_grupo = $id_grupo";
-                return $this->db->qa($qry);
-        }
+        
+        
+        
 }
