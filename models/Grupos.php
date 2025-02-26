@@ -25,4 +25,13 @@ class  Grupos
         return is_null($this->db->qo($qry));
 
     }
+    public function getGrupos()
+    {
+        $qry = "
+            SELECT id_grupo,grupo
+            FROM grupos
+            ORDER BY grupo ASC
+        ";                          // Recuperamos todos los grupos definidos
+        return($this->db->qa($qry));
+    }
 }

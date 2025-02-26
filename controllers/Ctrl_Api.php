@@ -62,7 +62,7 @@ class  Ctrl_Api extends \zfx\Controller
                 
                 $nombre = $_POST['nombre'];
                 // miramos si ese nombre ya existe en BD
-                $Grupo = New Grupos($nombre);
+                $Grupo = New Grupos($this->db);
                 if(Grupo.insertar($nombre) == -1)
                         $this->out(array(),10,"El grupo $nombre ya existe.");        
                 $this->out(array(),0,"");
@@ -284,7 +284,7 @@ class  Ctrl_Api extends \zfx\Controller
                 $Mensaje->enlazarMensajeUsuario($id_mensaje, $id_usuario_d);   // lo enlazamos a nuestro unico destinatario
                 $this->out(array("id_usuario_o"=>$id_usuario_o,
                 "id_usuario_d"=>$id_usuario_d,
-                "mensaje"=>$mensaje),0,"");
+                "mensaje"=>$mensajeText),0,"");
 
         }
         public function mcrearg()
@@ -299,7 +299,7 @@ class  Ctrl_Api extends \zfx\Controller
                         $Mensaje->enlazarMensajeUsuario($id_mensaje,$l['id_usuario']);
                 $this->out(array("id_usuario_o"=>$id_usuario_o,
                                  "destinatarios"=>$lista_usuarios,
-                                 "mensaje"=>$mensaje),0,"");
+                                 "mensaje"=>$mensajeText),0,"");
 
 
         }

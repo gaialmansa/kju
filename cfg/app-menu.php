@@ -32,6 +32,11 @@ $pofemenu = array(
                     'es'         => array('Asignar Busca', '<i class="fas fa-pager"></i>'),
                     'controller' => 'asignar-beeper',
                     'perm'       => '|',
+                ),
+                'pofemenu-enviar-mensaje' => array(
+                    'es'         => array('Enviar mensaje', '<i class="fas fa-pager"></i>'),
+                    'controller' => 'enviar-mensaje',
+                    'perm'       => '|',
                 )
             )
         ),

@@ -27,6 +27,15 @@ class Puser
         $ret = $this->db->qo($qry);
         return $ret;
     }
+    public function getUsuarios()
+    {
+        $qry = "
+                SELECT * 
+                FROM USUARIOS
+                ORDER BY nombre
+        ";
+        return $this->db->qa($qry);
+    }
 
 
 }
