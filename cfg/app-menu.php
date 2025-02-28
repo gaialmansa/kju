@@ -13,15 +13,17 @@ $menu = \zfx\Config::get('admMenu');
 // Grupo Cuenta. Aquí uno puede cambiar su contraseña, salir, etc.
 $pofemenu = array(
     'es'       => array('Mensajería', '<i class="fas fa-comments"></i> '),
+    'perm'     => '',
     'sections' => array(
         'pofemenu-tablas' => array(
             'es'          => array('Mensajería - Administración', '<i class="fas fa-comments"></i> '),
+            'perm'        => '',
             'subsections' => array
             (
                 'pofemenu-tablas-usuarios' => array(
                     'es'         => array('Usuarios', '<i class="fas fa-user-nurse"></i>'),
                     'controller' => 'usuarios',
-                    'perm'       => '|',
+                    'perm'       => 'menu-mensajeria-usuarios',
                 ),
                 'pofemenu-tablas-grupos' => array(
                     'es'         => array('Grupos de usuarios', '<i class="fas fa-users"></i>'),

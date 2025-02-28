@@ -1,21 +1,25 @@
 <html>
 <head><title>Envío de mensajes a usuarios/grupos</title></head>
-<bo>
+<body>
+<div class="zbfBox">
 <h1>Envío de mensajes</h1>
-<b>Destinatario:</b><br> 
 <form action="accion" method="get">
- <select name="grupo">
-    <option value="-1">--Seleccionar grupo--</option> 
-    <?php 
-    //echo var_dump($grupos);
-
-    foreach($grupos as $g)
-    {
-            echo "<option value='{$g['id_grupo']}'> {$g['grupo']} </option>";
-           
-    }
-    ?>
-</select>
+<div class="zbfCard">
+    <div class="zbfCardTitle">Destinatario</div>
+    <div class="zbfCardBody">
+        <div class="zbfCardContent">
+            <select name="grupo">
+            <option value="-1">--Seleccionar grupo--</option> 
+            <?php 
+            //echo var_dump($grupos);
+            foreach($grupos as $g)
+            {
+                echo "<option value='{$g['id_grupo']}'> {$g['grupo']} </option>";
+            }
+            ?>
+            </select>
+        </div>
+        <div class="zbfCardContent">
 <select name="usuario">
     <option value="-1">--Seleccionar usuario--</option> 
     <?php 
@@ -27,11 +31,23 @@
            
     }
     ?>
-</select><br>
+</select>
+        </div>
+    </div>
+</div>
+
+<div class="zbfCard">
+    <div class="zbfCardTitle">Contenido</div>
+    <div class="zbfCardBody">
+        <div class="zbfCardContent">
 Introduzca mensaje: 
 <input type="text" width="60" maxlength="128" name="mensaje">
-<br>
-<input type="submit" value="Enviar">
+        </div>
+    </div>
+    </div>
+     <button class="zbfCardButton" type="submit">Enviar</button>
+</div>
 </form>
+</div>
 </body>
 </html>
