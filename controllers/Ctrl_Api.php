@@ -49,7 +49,7 @@ class  Ctrl_Api extends \zfx\Controller
          * POST string $nombre
          * @return void
          */
-        public function creargrupo() // crea un grupo llamado nombre. Devuelve error si ya existe
+       public function creargrupo() // crea un grupo llamado nombre. Devuelve error si ya existe
          {
                 
                 $nombre = $_POST['nombre'];
@@ -60,8 +60,8 @@ class  Ctrl_Api extends \zfx\Controller
                 $this->out(array(),0,"");
          }    
         
-        public function asignarusuariogrupo() // Asigna un grupo a un usuario
-         {
+       public function asignarusuariogrupo() // Asigna un grupo a un usuario
+        {
                 $id_usuario = $_POST["id_usuario"];
                 $id_grupo = $_POST["id_grupo"];
                 // comprobamos que no existe el registro
@@ -93,8 +93,8 @@ class  Ctrl_Api extends \zfx\Controller
                 INSERT INTO rug (id_usuario,id_grupo) VALUES ($id_usuario,$id_grupo)";
                 $this->db->q($qry);
                 $this->out(array(),0,"");
-         }
-        public function quitarusuariogrupo() // Elimina un usuario de un grupo
+        }
+       public function quitarusuariogrupo() // Elimina un usuario de un grupo
          {
                 $id_usuario = $_POST["id_usuario"];
                 $id_grupo = $_POST["id_grupo"];
@@ -103,18 +103,18 @@ class  Ctrl_Api extends \zfx\Controller
                 $this->db->q($qry);
                 $this->out(array(),0,"");
          }
-        public function recuperarusuariosgrupo() // Recupera todos los usuarios de un grupo
+       public function recuperarusuariosgrupo() // Recupera todos los usuarios de un grupo
          {
                 
                 $id_grupo = $this->getpost('id_grupo');
                 
                 $this->out($this->_recuperarusuariosgrupo($id_grupo),0,"");
          }
-        public function borrargrupo()   // Elimina un grupo
+       public function borrargrupo()   // Elimina un grupo
          {
                 $this->_borrargrupo( $_POST["id_grupo"]);      
          }
-        public function modificargrupo() // Modifica los datos de un grupo
+       public function modificargrupo() // Modifica los datos de un grupo
          {
                 $id_grupo = $_POST["id_grupo"];
                 $nombre = $_POST["nombre"];
@@ -131,7 +131,7 @@ class  Ctrl_Api extends \zfx\Controller
                 $this->db->q($qry);
                 $this->out(array(),0,"");
          }
-        public function heredargrupo() // Hace que un grupo pertenezca a otro
+       public function heredargrupo() // Hace que un grupo pertenezca a otro
          {
                 $id_grupo = $_POST["id_grupo"];
                 $id_padre = $_POST["id_padre"];
@@ -155,17 +155,17 @@ class  Ctrl_Api extends \zfx\Controller
                 $this->db->q( $qry);
                 $this->out(array(),0,"");
          }
-        public function borrargruponombre() // Borra un grupo buscando por nombre
+       public function borrargruponombre() // Borra un grupo buscando por nombre
          {
                 $nombre = $_POST["nombre"];                
                 $borrame = $this->_recuperargruponombre($nombre);
                 if (!is_null($borrame))
                         $this->_borrargrupo($borrame);
          }
-        /**
-         * U S U A R I O S
-         */
-        public function unombre() //Cambia o establece el nombre de un usuario
+/**
+* U S U A R I O S
+*/
+       public function unombre() //Cambia o establece el nombre de un usuario
          {
                 $id_usuario = $_POST["id_usuario"];
                 $nombre = $_POST["nombre"];
@@ -181,7 +181,7 @@ class  Ctrl_Api extends \zfx\Controller
                         $this->out(array(),11,"El usuario $id_usuario no existe.");
                 
          }
-        public function ualias() // CAmbia o establece el alias de un usuario
+       public function ualias() // CAmbia o establece el alias de un usuario
          {
                 $id_usuario = $_POST["id_usuario"];
                 $usuario = $_POST["usuario"];
@@ -197,7 +197,7 @@ class  Ctrl_Api extends \zfx\Controller
                         $this->out(array(),11,"El usuario $id_usuario no existe.");
                 
          }
-        public function uobservaciones() //Cambia o establece las observaciones de un usuario
+       public function uobservaciones() //Cambia o establece las observaciones de un usuario
          {
                 $id_usuario = $_POST["id_usuario"];
                 $observaciones = $_POST["observaciones"];
@@ -213,11 +213,11 @@ class  Ctrl_Api extends \zfx\Controller
                         $this->out(array(),11,"El usuario $id_usuario no existe.");
                 
          }
-        public function borrarusuario() // Borra un usuario
+       public function borrarusuario() // Borra un usuario
          {
                 $this->_borrarusuario( $_POST["id_usuario"]);
          }
-        public function ucrear() //Crea un usuario nuevo
+       public function ucrear() //Crea un usuario nuevo
          {
                 $usuario = $_POST["usuario"];
                 $nombre = $_POST["nombre"];
@@ -249,7 +249,7 @@ class  Ctrl_Api extends \zfx\Controller
         * M E N S A J E S 
         *
         */
-        public function mcrear() // Crea un mensaje para un usuario
+       public function mcrear() // Crea un mensaje para un usuario
          {
                 $id_usuario_o = $_POST["id_usuario_o"];
                 $id_usuario_d = $_POST["id_usuario_d"];
@@ -262,7 +262,7 @@ class  Ctrl_Api extends \zfx\Controller
                 "mensaje"=>$mensajeText),0,"");
 
          }
-        public function mcrearg() // Crea un mensaje para un grupo de usuarios
+       public function mcrearg() // Crea un mensaje para un grupo de usuarios
          { 
                 $id_usuario_o = $_POST["id_usuario_o"];
                 $id_grupo = $_POST["id_grupo"];
@@ -278,7 +278,7 @@ class  Ctrl_Api extends \zfx\Controller
 
 
          }
-        public function mrecuperar() //Recupera los ultimos n mensajes del usuario desde un offset
+       public function mrecuperar() //Recupera los ultimos n mensajes del usuario desde un offset
          {
                 $id_usuario = $_POST["id_usuario"];
                 $nmensajes = $_POST["nmensajes"];
@@ -287,7 +287,7 @@ class  Ctrl_Api extends \zfx\Controller
                 $listamensajes = $Mensaje->recuperar($id_usuario, $nmensajes, $offset);
                 $this->out($listamensajes,0,'');
          }
-        public function mver() // marca el mensaje como visto
+       public function mver() // marca el mensaje como visto
          {
                 $id = $_POST['id'];
                 $Mensaje = New Mensaje($this->db);
@@ -295,7 +295,7 @@ class  Ctrl_Api extends \zfx\Controller
                 $this->out(array(),0,"");
 
          }
-        public function matender()// recupera los últimos n mensajes enviados por el usuario id_user
+       public function matender()// recupera los últimos n mensajes enviados por el usuario id_user
          {
                 $id = $_POST['id'];
                 $Mensaje = New Mensaje($this->db);
@@ -303,7 +303,7 @@ class  Ctrl_Api extends \zfx\Controller
                 $this->out(array(),0,"");
 
          }
-        public function menviadosrecuperar() // recupera los últimos n mensajes enviados por el usuario id_user
+       public function menviadosrecuperar() // recupera los últimos n mensajes enviados por el usuario id_user
          {
                 $id_usuario = $_POST["id_usuario"];
                 $numero = $_POST["numero"];
@@ -314,14 +314,14 @@ class  Ctrl_Api extends \zfx\Controller
 
          }
         
-        public function mnv()//Recupera el mensaje, para el usuario, mas reciente y no visto
+       public function mnv()//Recupera el mensaje, para el usuario, mas reciente y no visto
          {
           $id_usuario = $_POST["id_usuario"];
           $Mensaje = New Mensaje($this->db);
           $lista = $Mensaje->recuperarPrimeroNoVisto($id_usuario); // devuelve el primer mensaje no visto.
           $this->out($lista,0,''); 
          }
-        public function mstatus() //Recupera el estado de un mensaje
+       public function mstatus() //Recupera el estado de un mensaje
 
 
          {
@@ -332,14 +332,14 @@ class  Ctrl_Api extends \zfx\Controller
               
          }
         
-        public function mrnat() // Recupera los mensajes dirigidos a un usuario que no han sido atendidos
+       public function mrnat() // Recupera el ultimo mensaje dirigido a un usuario pendiente de atender
          {
              $id_usuario = $_POST["id_usuario"];
              $Mensaje = New Mensaje($this->db);
              $lista = $Mensaje->rnat($id_usuario); // devuelve el estatus del mensaje
              $this->out($lista,0,''); 
          }
-         public function mrpnat() // Recupera los mensajes dirigidos a un usuario que no han sido atendidos
+       public function mrpnat() // Recupera los mensajes dirigidos a un usuario que no han sido atendidos
          {
              $id_usuario = $_POST["id_usuario"];
              $offset = $_POST["offset"];
@@ -347,20 +347,49 @@ class  Ctrl_Api extends \zfx\Controller
              $lista = $Mensaje->rpnat($id_usuario,$offset); // devuelve el estatus del mensaje
              $this->out($lista,0,''); 
          }
+       public function mat() // comprueba si el mensaje ya ha sido atendido
+         {
+              $id_mensaje = $_POST['id_mensaje'];
+              $Mensaje = New Mensaje($this->db);
+              $atendido = $Mensaje->atendido($id_mensaje); // devuelve el estatus del mensaje
+              
+              $this->out($atendido,0,'');       
+         }
 
-       //           P R O P O S I T O    G E N E R A L 
+       
+       
+       
+/**
+* Experimental
+*/
+
+
+       public function exrtime() //Registra la hora
+        {
+              $id_usuario = $_POST["id_usuario"];
+              $Exp = New Experimental($this->db);
+              $Exp->grabarHora($id_usuario);
+        }
+       
+       
+       
+       
+       
+/*
+//           P R O P O S I T O    G E N E R A L 
+*/
+       
         
-        
-        public function out($payload) //Salida de $payload en formato Json
+       public function out($payload) //Salida de $payload en formato Json
          {
                 echo json_encode($payload);
          }
-        public function outErr($errcode,$errmsg) // Salida con errores
+       public function outErr($errcode,$errmsg) // Salida con errores
          {
                 $salida = array ('errcode'=>$errcode, 'errmsg'=>$errmsg);
                 echo json_encode($salida);
          }    
-        private function getpost($varname) // Recupera una variable que se ha pasado por get o posr
+       private function getpost($varname) // Recupera una variable que se ha pasado por get o posr
          {
                 if(isset($_POST[$varname]))
                         return $_POST[$varname];
@@ -370,7 +399,7 @@ class  Ctrl_Api extends \zfx\Controller
                 else
                 return null;
           }
-        private function _borrargrupo($id_grupo) // Borra un grupo de usuarios
+       private function _borrargrupo($id_grupo) // Borra un grupo de usuarios
          {
                 $qry = "SELECT id_grupo FROM grupos WHERE id_grupo = $id_grupo";
                 if(is_null($this->db->qa($qry)))
@@ -383,7 +412,7 @@ class  Ctrl_Api extends \zfx\Controller
                 $this->db->q($qry);
                 $this->out(array(),0,"");
          }
-        private function _recuperargruponombre($nombre) // Recupera el id de un grupo buscando por nombre
+       private function _recuperargruponombre($nombre) // Recupera el id de un grupo buscando por nombre
          {
                 $qry = "
                 SELECT id_grupo FROM grupos WHERE grupo = '$nombre'";
@@ -395,7 +424,7 @@ class  Ctrl_Api extends \zfx\Controller
                         }
                 return $res['id_grupo'];
          }
-        private function _borrarusuario($id_usuario) // Borra un usuario
+       private function _borrarusuario($id_usuario) // Borra un usuario
          {
                 $qry = "SELECT id_usuario FROM usuarios WHERE id_usuario = $id_usuario";
                 if(is_null($this->db->qa($qry)))
@@ -408,19 +437,19 @@ class  Ctrl_Api extends \zfx\Controller
                 $this->db->q($qry);
                 $this->out(array(),0,"");     
          }
-        private function _recuperarusuario( $id_usuario) //Recupera un usuario
+       private function _recuperarusuario( $id_usuario) //Recupera un usuario
          {
                 $qry = "
                 SELECT * FROM usuarios WHERE id_usuario = $id_usuario";
                 return $this->db->qr($qry);
          }
-        private function _recuperarusuarionombre( $nombre) //Recupera un usuario buscando por nombre
+       private function _recuperarusuarionombre( $nombre) //Recupera un usuario buscando por nombre
          {
                 $qry = "
                 SELECT * FROM usuarios WHERE nombre = '$nombre'";
                 return $this->db->qr($qry);
          }
-        private function _recuperarusuarioalias( $alias) //Recupera un usuario buscando por alias
+       private function _recuperarusuarioalias( $alias) //Recupera un usuario buscando por alias
          {
                 $qry = "
                 SELECT * FROM usuarios WHERE usuario = '$alias'";
