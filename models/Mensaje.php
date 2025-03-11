@@ -174,7 +174,7 @@ class  Mensaje
          SELECT id
             FROM rmu 
             WHERE id_mensaje = $id_mensaje
-             AND leido 
+             AND visto 
             ";
             return $this->db->qr($qry); 
 
