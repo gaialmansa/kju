@@ -355,7 +355,7 @@ class  Ctrl_Api extends \zfx\Controller
               
               $this->out($atendido,0,'');       
          }
-         public function ma() // comprueba si el mensaje ya ha sido leido
+         public function ml() // comprueba si el mensaje ya ha sido leido
          {
               $id_mensaje = $_POST['id_mensaje'];
               $Mensaje = New Mensaje($this->db);
