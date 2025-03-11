@@ -168,4 +168,17 @@ class  Mensaje
             return $this->db->qr($qry); 
 
       }
+   public function leido($id_mensaje)  // devuelve verdadero cuando el mensaje ya ha sido atendido
+      {
+         $qry = "
+         SELECT id
+            FROM rmu 
+            WHERE id_mensaje = $id_mensaje
+             AND leido 
+            ";
+            return $this->db->qr($qry); 
+
+      }
+
+
    }
