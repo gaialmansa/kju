@@ -244,11 +244,11 @@ class  Ctrl_Api extends \zfx\Controller
                                           "observaciones"=>$observaciones),0,"");
 
          }
-        /*
-        *
-        * M E N S A J E S 
-        *
-        */
+      /*
+      *
+      * M E N S A J E S 
+      *
+      */
        public function mcrear() // Crea un mensaje para un usuario
          {
                 $id_usuario_o = $_POST["id_usuario_o"];
@@ -274,8 +274,8 @@ class  Ctrl_Api extends \zfx\Controller
                         $Mensaje->enlazarMensajeUsuario($id_mensaje,$l['id_usuario']);
                 $this->out(array("id_usuario_o"=>$id_usuario_o,
                                  "destinatarios"=>$lista_usuarios,
-                                 "mensaje"=>$mensajeText),0,"");
-
+                                 "mensaje"=>$mensajeText,
+                                 "id_mensaje"=>$id_mensaje),0,"");
 
          }
        public function mrecuperar() //Recupera los ultimos n mensajes del usuario desde un offset
