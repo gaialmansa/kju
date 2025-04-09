@@ -1,3 +1,4 @@
+
 <?php
 /*
   Zerfrex (R) RAD ADM
@@ -15,20 +16,20 @@ use zfx\Config;
 
 include_once('Abs_AppController.php');
 
-class Ctrl_Grupos extends Abs_AppController
+class Ctrl_MisOpciones extends Abs_AppController
 {
 
     public function _main()
     {
         $this->_view->addSection('body', 'zaf/' . Config::get('admTheme') . '/crud-bootstrap-search', array(
-            '_title'      => 'Buscar grupos',
-            '_controller' => 'GruposCrud',
+            '_title'      => 'Buscar respuesta',
+            '_controller' => 'MisOpcionesCrud',
             '_autoFocus'  => TRUE
         ));
         
         $this->_view->addSection('body', 'zaf/' . Config::get('admTheme') . '/crud-bootstrap-list', array(
-            '_title'      => 'Grupos actuales',
-            '_controller' => 'GruposCrud'
+            '_title'      => 'Respuestas actuales',
+            '_controller' => 'MisOpcionesCrud'
         ));
 
         $this->_view->show();

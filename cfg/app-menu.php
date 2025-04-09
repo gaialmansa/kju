@@ -16,29 +16,28 @@ $pofemenu = array(
     'perm'     => '',
     'sections' => array(
         'pofemenu-tablas' => array(
-            'es'          => array('Ponencias' - Administración', '<i class="fas fa-comments"></i> '),
+            'es'          => array('Ponencias','Administración', '<i class="fas fa-comments"></i> '),
             'perm'        => '',
             'subsections' => array
             (
-                'pofemenu-tablas-ponencias' => array(
-                    'es'         => array('Ponencias', '<i class="fas fa-user-nurse"></i>'),
-                    'controller' => 'ponencias',
-                    'perm'       => 'menu-ponencias-usuarios',
+                'pofemenu-mis-ponencias' => array(
+                    'es'         => array('Mis ponencias', '<i class="fas fa-users"></i>'),
+                    'controller' => 'mis-ponencias',
+                    'perm'       => 'ponentes',
                 ),
-                'pofemenu-tablas-grupos' => array(
-                    'es'         => array('Grupos de usuarios', '<i class="fas fa-users"></i>'),
-                    'controller' => 'grupos',
-                    'perm'       => '|',
+                'pofemenu-mis-preguntas' => array(
+                    'es'         => array('Preguntas/ponencia', '<i class="fas fa-pager"></i>'),
+                    'controller' => 'mis-preguntas',
+                    'perm'       => 'ponentes',
                 ),
-                'pofemenu-asignar-busca' => array(
-                    'es'         => array('Asignar Busca', '<i class="fas fa-pager"></i>'),
-                    'controller' => 'asignar-beeper',
-                    'perm'       => '|',
-                ),
-                'pofemenu-enviar-mensaje' => array(
-                    'es'         => array('Enviar mensaje', '<i class="fas fa-pager"></i>'),
-                    'controller' => 'enviar-mensaje',
-                    'perm'       => '|',
+                'pofemenu-mis-opciones' => array(
+                    'es'         => array('Opciones/Pregunta', '<i class="fas fa-pager"></i>'),
+                    'controller' => 'mis-opciones',
+                    'perm'       => 'ponentes',
+                ),'pofemenu-accion' => array(
+                    'es'         => array('Acción', '<i class="fas fa-pager"></i>'),
+                    'controller' => 'Accion',
+                    'perm'       => 'ponentes',
                 )
             )
         ),

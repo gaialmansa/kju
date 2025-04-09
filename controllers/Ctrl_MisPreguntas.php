@@ -1,3 +1,4 @@
+
 <?php
 /*
   Zerfrex (R) RAD ADM
@@ -15,16 +16,20 @@ use zfx\Config;
 
 include_once('Abs_AppController.php');
 
-class Ctrl_AsignarBeeper extends Abs_AppController
+class Ctrl_MisPreguntas extends Abs_AppController
 {
 
     public function _main()
     {
-
+        $this->_view->addSection('body', 'zaf/' . Config::get('admTheme') . '/crud-bootstrap-search', array(
+            '_title'      => 'Buscar pregunta',
+            '_controller' => 'MisPreguntasCrud',
+            '_autoFocus'  => TRUE
+        ));
         
         $this->_view->addSection('body', 'zaf/' . Config::get('admTheme') . '/crud-bootstrap-list', array(
-            '_title'      => 'Asignar Beeper',
-            '_controller' => 'AsignarBeeperCrud'
+            '_title'      => 'Preguntas actuales',
+            '_controller' => 'MisPreguntasCrud'
         ));
 
         $this->_view->show();
@@ -43,5 +48,7 @@ class Ctrl_AsignarBeeper extends Abs_AppController
     {
         return '';
     }
+
+    // --------------------------------------------------------------------
 
 }

@@ -16,16 +16,14 @@ use function zfx\va;
 
 include_once('Abs_AppCrudController.php');
 
-class Ctrl_AsignarBeeperCrud extends Abs_AppCrudController
+class Ctrl_MisPreguntasCrud extends Abs_AppCrudController
 {
 
     protected function initData()
     {
-        $this->auto('beepers');
-        $this->lstHideFields = array('id_beeper');
-        $this->relName('beepers_id_usuario_fkey','nombre');
-        
+        $this->auto('preguntas');
     }
+
     // --------------------------------------------------------------------
 
 }

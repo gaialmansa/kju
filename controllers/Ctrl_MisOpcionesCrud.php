@@ -16,12 +16,12 @@ use function zfx\va;
 
 include_once('Abs_AppCrudController.php');
 
-class Ctrl_GruposCrud extends Abs_AppCrudController
+class Ctrl_MisOpcionesCrud extends Abs_AppCrudController
 {
 
     protected function initData()
     {
-        $this->auto('grupos');
+        $this->auto('opciones');
     }
 
     // --------------------------------------------------------------------
