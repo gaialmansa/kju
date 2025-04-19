@@ -36,7 +36,7 @@ $pofemenu = array(
                     'perm'       => 'ponentes',
                 ),'pofemenu-accion' => array(
                     'es'         => array('Acción', '<i class="fas fa-pager"></i>'),
-                    'controller' => 'Accion',
+                    'controller' => 'accion',
                     'perm'       => 'ponentes',
                 )
             )

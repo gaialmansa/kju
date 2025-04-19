@@ -398,4 +398,38 @@ class PgDB
     }
 
     // --------------------------------------------------------------------
+    // **********************************************************************
+    //   AÑADIDOS POFENAS
+    // **********************************************************************
+        // --------------------------------------------------------------------
+
+    /**
+     * Query and get Array
+     *
+     * Execute query and return all rows as an array.
+     *
+     * @param string $query Query to be executed
+     * @param string $key Use value of column "$key" as array keys.
+     * @param string $pack Use value of column "$pack" as array value.
+     */
+    public function qobj($query, $key = NULL, $pack = '')
+    {
+        $this->lastRes = NULL;
+        $res           = pg_query($this->resConn, $query);
+        if (!$res) {
+            if ($this->ignoreErrors == FALSE || pg_connection_status($this->resConn) !== PGSQL_CONNECTION_OK) {
+                $this->queryError($query);
+            }
+            return NULL;
+        }
+        else 
+        {
+            $rows = pg_num_rows($res);
+            if ($rows > 0) 
+                {
+                return pg_fetch_object($res);
+                } 
+                
+        }
+    }
 }
