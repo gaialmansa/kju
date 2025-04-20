@@ -1,17 +1,7 @@
 <?php
 
 
-require 'vendor/autoload.php';
 
-use Endroid\QrCode\Color\Color;
-use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Label\Label;
-use Endroid\QrCode\Logo\Logo;
-use Endroid\QrCode\RoundBlockSizeMode;
-use Endroid\QrCode\Writer\PngWriter;
-use Endroid\QrCode\Writer\ValidationException;
 use zfx\View;
 class  Ctrl_Accion extends \zfx\Controller 
 {
@@ -86,6 +76,9 @@ class  Ctrl_Accion extends \zfx\Controller
         private function genQR($id_ponencia)
                 {
                 $rootUrl = \zfx\Config::get('rootUrl');
+                shell_exec("qrencode -s 10 -o res/QR/test-qr.png ".$rootUrl."accion/quizx/".$id_ponencia);
+                
+                return;
                 $qr = new Endroid\QrCode\QrCode(
                     data: $rootUrl."accion/quizx/".$id_ponencia,
                     size: 300,
