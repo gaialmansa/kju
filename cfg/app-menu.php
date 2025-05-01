@@ -24,16 +24,6 @@ $pofemenu = array(
                     'es'         => array('Mis ponencias', '<i class="fas fa-users"></i>'),
                     'controller' => 'mis-ponencias',
                     'perm'       => 'ponentes',
-                ),
-                'pofemenu-mis-preguntas' => array(
-                    'es'         => array('Preguntas/ponencia', '<i class="fas fa-pager"></i>'),
-                    'controller' => 'mis-preguntas',
-                    'perm'       => 'ponentes',
-                ),
-                'pofemenu-mis-opciones' => array(
-                    'es'         => array('Opciones/Pregunta', '<i class="fas fa-pager"></i>'),
-                    'controller' => 'mis-opciones',
-                    'perm'       => 'ponentes',
                 ),'pofemenu-accion' => array(
                     'es'         => array('Acción', '<i class="fas fa-pager"></i>'),
                     'controller' => 'accion',
