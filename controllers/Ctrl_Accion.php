@@ -14,12 +14,12 @@ class Ctrl_Accion extends \zfx\Controller
                         $this->seleccionar();
          }
         public function getp($id_ponencia)    // obtiene el id de la pregunta en curso
-        {
+         {
             $Ponencia = New Ponencia($id_ponencia);
             header('Content-Type: text/plain'); // Opcional, pero mejora la claridad
             echo $Ponencia->getPreguntaActivaId();
-        }
-
+         }
+ 
 
         public function seleccionar() // Selecciona la ponencia
             {
