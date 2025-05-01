@@ -26,4 +26,11 @@ class Ctrl_MisPreguntasCrud extends Abs_AppCrudController
 
     // --------------------------------------------------------------------
 
+    protected function setupViewForm($packedID = '')
+    {
+        parent::setupViewForm($packedID);
+        if ($packedID != '') {
+            $this->addFrmSectionRel($packedID, 'opciones_id_pregunta_fkey', 'MisOpcionesCrud', 'Opciones');
+        }
+    }
 }

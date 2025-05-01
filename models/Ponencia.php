@@ -32,6 +32,15 @@ class  Ponencia
         ";      
         return $this->db->qobj($qry); 
         }
+    public function getPreguntaActivaId() // obtenemos la pregunta activa
+        {
+        $qry = "
+        SELECT id FROM  preguntas
+        WHERE id_ponencia = $this->id_ponencia
+            AND abierto
+        ";      
+        return $this->db->qobj($qry)->id; 
+        }
     public function getPreguntaActivaConOpciones($ip) // obtenemos la pregunta activa con sus opciones
         {
         $pregunta = $this->getPreguntaActiva(); // Obtenemos la pregunta activa
@@ -163,7 +172,8 @@ class  Ponencia
      {
         $db = new \zfx\DB();
         $id_user = 1;
-        $qry = "SELECT * FROM ponencias WHERE id_user =  $id_user ";
+        //$qry = "SELECT * FROM ponencias WHERE id_user =  $id_user ";
+        $qry = "SELECT * FROM ponencias  ";
         return $db->qa($qry);
      }
     static function grabarRespuesta($id_pregunta, $id_opcion, $ip) // Graba la respuesta

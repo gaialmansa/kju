@@ -3,8 +3,9 @@
 
 
 use zfx\View;
-class  Ctrl_Accion extends \zfx\Controller 
+class Ctrl_Accion extends \zfx\Controller 
 {
+
         public $db, $retorno;
         public function _main()
          {
@@ -12,13 +13,20 @@ class  Ctrl_Accion extends \zfx\Controller
                 if (!$res) 
                         $this->seleccionar();
          }
+        public function getp($id_ponencia)    // obtiene el id de la pregunta en curso
+        {
+            $Ponencia = New Ponencia($id_ponencia);
+            header('Content-Type: text/plain'); // Opcional, pero mejora la claridad
+            echo $Ponencia->getPreguntaActivaId();
+        }
+
 
         public function seleccionar() // Selecciona la ponencia
             {
             $data = array();
             $data['rootUrl'] = \zfx\Config::get('rootUrl');
             //$data['user'] = $this->_getUser(); // Obtenemos el usuario
-            $data['user'] = 1;
+            $data['user'] = 3;
             $data['ponencias'] = Ponencia::getAll(); // Obtenemos todas las ponencias del usuario activo
             //die(var_dump($data));
             $this->_view = new View("listaPonencias", $data);
@@ -76,34 +84,9 @@ class  Ctrl_Accion extends \zfx\Controller
         private function genQR($id_ponencia)
                 {
                 $rootUrl = \zfx\Config::get('rootUrl');
-                shell_exec("qrencode -s 10 -o res/QR/test-qr.png ".$rootUrl."accion/quizx/".$id_ponencia);
-                
+                unlink('res/QR/test-qr.png');
+                shell_exec("qrencode -s 5 -o res/QR/test-qr.png {$rootUrl}accion/quizx/{$id_ponencia}/");
                 return;
-                $qr = new Endroid\QrCode\QrCode(
-                    data: $rootUrl."accion/quizx/".$id_ponencia,
-                    size: 300,
-                    margin: 10,
-                    encoding: new Encoding('UTF-8'),
-                    errorCorrectionLevel: ErrorCorrectionLevel::Low,
-                    roundBlockSizeMode: RoundBlockSizeMode::Margin,
-                    foregroundColor: new Color(0, 0, 0),
-                    backgroundColor: new Color(255, 255, 255)
-                    );
-                        // Create generic logo
-                    $logo = new Logo(
-                    path: \zfx\Config::get('rootUrl')."res/img/BPSO2.png",
-                    punchoutBackground: true
-                    );
-                        
-                        // Create generic label
-                    $label = new Label(
-                        text: 'Escanea este código',
-                        textColor: new Color(255, 0, 0)
-                    );
-                    
-                    $writer = new Endroid\QrCode\Writer\PngWriter();
-                    $result = $writer->write($qr,$logo,$label);
-                    $result->saveToFile('res/QR/test-qr.png');
                 }
         public function quizx($id_ponencia,$next = NULL) // Comienza el quiz
             {
@@ -145,19 +128,12 @@ class  Ctrl_Accion extends \zfx\Controller
             }
         private function getIP()
             {
-                $ip = '';
-                    // Comprobamos si la IP viene en cabeceras HTTP (útil si hay proxy)
-                if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-                    $ip = $_SERVER['HTTP_CLIENT_IP'];
-                } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                    // La IP puede venir como lista si hay múltiples proxies
-                    $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                    $ip = trim($ipList[0]);
-                } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
-                    // IP directa del cliente (puede ser la del proxy, no la real)
-                    $ip = $_SERVER['REMOTE_ADDR'];
-                }
-                // Filtramos la IP por seguridad
-                return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : 'IP desconocida';
+             session_start();
+
+                return session_id();
             }
+
+
+
+
 }

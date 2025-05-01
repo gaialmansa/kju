@@ -42,25 +42,66 @@
             grid-template-columns: 1fr;
             gap: 1rem;
         }
-
-        .option-button {
+        .option-btn {
             display: block;
             padding: 1rem;
             background-color: #FF69B4;
             color: white;
-            text-decoration: none;
             border-radius: 10px;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            border: none;
+            margin-bottom: 0.5rem;
             cursor: pointer;
-            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            text-align: left;
+            border: none;
+            font-size: 1.1rem;
         }
 
-        .option-button:hover {
+        .option-btn:hover {
             background-color: #FF9966;
             transform: scale(1.02);
         }
+        .option-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+         /* Estado "enviado-vista inmediata" */
+         .option-btn.sent {
+            background-color: rgba(144, 238, 144, 0.7) !important; /* Verde claro */
+            border-left: 4px solid #00C853 !important;
+            color: #2c3e50;
+        }
+
+        /* Estado "enviado" */
+        .option-btnsent {
+            background-color: rgba(144, 238, 144, 0.7) !important; /* Verde claro */
+            border-left: 4px solid #00C853 !important;
+            color: #2c3e50;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #00C853;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 1.2rem;
+        }
+        .checkmarksent {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #00C853;
+            font-weight: bold;
+            opacity: 1;
+            transition: opacity 0.3s;
+            font-size: 1.2rem;
+        }
+        
 
         .qrcode {
             position: absolute;
@@ -69,6 +110,29 @@
             width: 80px;
             height: auto;
         }
+        /* --- Estilos para el botón de recarga manual --- */
+        .manual-reload-button {
+            display: block; /* Para que ocupe su propia línea */
+            width: 100%; /* Que ocupe el ancho del contenedor */
+            padding: 1rem;
+            margin-top: 1.5rem; /* Espacio encima */
+            background-color: #f0f0f0; /* Fondo gris claro */
+            color: #333; /* Texto oscuro */
+            border: 1px solid #ccc; /* Borde suave */
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            max-width: 600px; /* Opcional: para que no sea más ancho que el contenedor principal */
+            box-sizing: border-box; /* Incluir padding y borde en el ancho */
+            text-decoration: none; /* Si usas un <a> */
+        }
+
+        .manual-reload-button:hover {
+            background-color: #ddd; /* Fondo un poco más oscuro al pasar el ratón */
+        }
+        /* --------------------------------------------- */
 
         @media (max-width: 768px) {
             .question-text {
@@ -85,9 +149,9 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             .question-text {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
             
             .container {
@@ -98,15 +162,81 @@
             .question-card {
                 padding: 1rem;
             }
+            /* Ajustar el ancho del botón de recarga en pantallas pequeñas */
+            .manual-reload-button {
+                 /* Ajustar si el container tiene padding */
+                width: calc(100% - 0px); /* Si el contenedor tiene padding, el 100% ya lo respeta */
+                margin-left: auto;
+                margin-right: auto;
+            }
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <script>
-    setInterval(function() {
-        window.location.reload();
-    }, 1000); // 1000 ms = 1 segundo
-</script>
+       $(document).ready(function() {
+           console.log('DOM Ready. Inicializando scripts para la vista de espera.');
+
+           // --- Lógica de Chequeo Automático por AJAX ---
+           // Variable para almacenar el último valor conocido recibido del servidor
+           let lastKnownValue = null;
+
+           // URL a la que haremos la petición AJAX para chequear el estado
+           const checkUrl = '<?=$rootUrl?>/accion/getp/<?=$id_ponencia?>';
+
+           // Función para realizar la petición AJAX usando jQuery, comparar el valor y recargar si es necesario
+           function checkValueAndReload()
+           {
+              $.ajax(
+              {
+                 url: checkUrl,
+                 method: 'GET',
+                 dataType: 'text', // Esperamos que la respuesta sea texto (el número)
+                 success: function(newValue) {
+                     // Este código se ejecuta si la petición fue exitosa (código 2xx)
+                     // newValue es el texto de la respuesta (el número)
+
+                     // Si es la primera vez que obtenemos un valor, simplemente lo almacenamos
+                     if (lastKnownValue === null) {
+                         lastKnownValue = newValue;
+                         // console.log('Valor inicial getp:', lastKnownValue); // Descomenta para depurar
+                     } else if (newValue !== lastKnownValue) {
+                         // Si el nuevo valor es diferente al último conocido
+                         console.log('Valor getp cambió de', lastKnownValue, 'a', newValue, '. Recargando...');
+                         lastKnownValue = newValue;
+                         window.location.reload(); // Recargamos la página completa
+                     } else {
+                         // El valor es el mismo, no hacemos nada
+                         // console.log('El valor sigue siendo:', newValue); // Descomenta para depurar
+                     }
+                 },
+                 error: function(jqXHR, textStatus, errorThrown) {
+                     // Este código se ejecuta si la petición falló (código no 2xx o error de red)
+                     console.error('Error AJAX checkValue:', textStatus, errorThrown, jqXHR.status);
+                     // No recargamos automáticamente en caso de errores.
+                 }
+              });
+           }
+
+           // Intervalo de chequeo (en milisegundos).
+           const checkInterval = 5000; // 5 segundos
+
+           // Iniciar el intervalo (dentro de $(document).ready para seguridad)
+           setInterval(checkValueAndReload, checkInterval);
+           console.log('Intervalo de chequeo getp iniciado.');
+
+
+           // --- Manejador del Botón de Recarga Manual ---
+           // Aseguramos que el manejador de clic se adjunte DENTRO de $(document).ready
+           $('#manualReloadBtn').on('click', function() {
+              console.log('Recarga manual iniciada por el usuario.');
+              window.location.reload(); // Forzar la recarga de la página completa
+           });
+           console.log('Manejador de clic para #manualReloadBtn adjuntado.');
+
+       }); // Fin de $(document).ready
+    </script>
     <div class="container">
         <img src="<?=$rootUrl?>res/img/pofenas.png" alt="Pofesoft" class="qrcode">
         
@@ -115,17 +245,10 @@
             <div class="question-text">
                 Esperando a que se inicie el test...
             </div>
-            
-            <!-- Grid de Opciones 
-            <div class="options-grid">
-                 Cada opción es un enlace a tu entry point con parámetro 
-                <a href="/entry-point?respuesta=1&pregunta=123" class="option-button">Python</a>
-                <a href="/entry-point?respuesta=2&pregunta=123" class="option-button">JavaScript</a>
-                <a href="/entry-point?respuesta=3&pregunta=123" class="option-button">Java</a>
-                <a href="/entry-point?respuesta=4&pregunta=123" class="option-button">PHP</a>
-            </div>
-            -->
         </div>
+        <button id="manualReloadBtn" class="manual-reload-button">
+            Pulsa aquí si la página no se recarga automáticamente
+        </button>
     </div>
 </body>
 </html>
