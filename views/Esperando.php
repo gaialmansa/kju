@@ -220,7 +220,7 @@
            }
 
            // Intervalo de chequeo (en milisegundos).
-           const checkInterval = 5000; // 5 segundos
+           const checkInterval = 1000; // 1 segundos
 
            // Iniciar el intervalo (dentro de $(document).ready para seguridad)
            setInterval(checkValueAndReload, checkInterval);

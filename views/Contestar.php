@@ -216,7 +216,7 @@
                 }
             });
         }
-        const checkInterval = 5000; // milisegundos 
+        const checkInterval = 1000; // 1 segundos 
 
         // Iniciar el intervalo
         setInterval(checkValueAndReload, checkInterval);
