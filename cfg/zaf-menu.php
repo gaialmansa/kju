@@ -29,19 +29,19 @@ $groupSystem = array(
                 'usuarios' => array(
                     'es'         => array('Usuarios', '<i class="fas fa-user"></i>'),
                     'en'         => array('Users', '<i class="fas fa-user"></i>'),
-                    'perm'       => Config::get('appPermConfUser'),
+                    'perm'       => 'admin', //Config::get('appPermConfUser'),
                     'controller' => 'configuracion-usuarios'
                 ),
                 'grupos'   => array(
                     'es'         => array('Grupos de usuarios', '<i class="fas fa-users"></i>'),
                     'en'         => array('User groups', '<i class="fas fa-users"></i>'),
-                    'perm'       => Config::get('appPermConfGroups'),
+                    'perm'       => 'admin', //Config::get('appPermConfUser'),
                     'controller' => 'configuracion-grupos'
                 ),
                 'permisos' => array(
                     'es'         => array('Permisos', '<i class="fas fa-stamp"></i>'),
                     'en'         => array('Permissions', '<i class="fas fa-stamp"></i>'),
-                    'perm'       => Config::get('appPermConfPerms'),
+                    'perm'       => 'admin', //Config::get('appPermConfUser'),
                     'controller' => 'configuracion-permisos'
                 )
             )
